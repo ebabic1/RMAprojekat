@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/game_rating_textview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.15"
+            android:text="TextView" />
+
+        <LinearLayout
+            android:layout_width="33.3dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/game_title_textview1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/game_platform_textview"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/game_release_date_textview"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="TextView" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
