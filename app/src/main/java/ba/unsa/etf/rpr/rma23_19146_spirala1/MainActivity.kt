@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         gameListAdapter.updateGames(games)
         detailsButton.isEnabled = false
         detailsButton.setOnClickListener(){
-            gameTitle?.let { it1 -> GameDetailActivity.getGameByTitle(it1) }
+            gameTitle?.let { it1 -> GameData.getDetails(it1) }
                 ?.let { it2 -> showGameDetails(it2) }
         }
     }

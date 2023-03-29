@@ -28,14 +28,7 @@ class GameDetailActivity : AppCompatActivity(){
     private lateinit var detailsButton: ImageButton
     private lateinit var logo : ImageView
     private lateinit var description : TextView
-    companion object GameUtil{
-        fun getGameByTitle(title:String):Game{
-            val games : ArrayList<Game> = arrayListOf()
-            games.addAll(GameData.getAll())
-            val game = games.find{ it.title == title}
-            return game?: Game(" "," "," ", 0.0," "," "," "," "," "," ", arrayListOf());
-        }
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +47,7 @@ class GameDetailActivity : AppCompatActivity(){
         description = findViewById(R.id.description_textview)
         val extras = intent.extras
         if(extras != null){
-            game = getGameByTitle(extras.getString("game_title",""))
+            game = GameData.getDetails(extras.getString("game_title",""))
             populateDetails()
         } else{
             finish()
@@ -69,7 +62,7 @@ class GameDetailActivity : AppCompatActivity(){
         impressionList.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         impressionListAdapter = ImpressionListAdapter(listOf())
         impressionList.adapter = impressionListAdapter
-        impressionListAdapter.updateImpressions(getGameByTitle(game.title).userImpressions)
+        impressionListAdapter.updateImpressions(GameData.getDetails(game.title).userImpressions)
     }
     override fun onResume() {
         super.onResume()
