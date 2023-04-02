@@ -3,7 +3,7 @@ package ba.unsa.etf.rpr.rma23_19146_spirala1
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,8 +24,8 @@ class GameDetailActivity : AppCompatActivity(){
     private lateinit var impressionList : RecyclerView
     private lateinit var impressions : List<UserImpression>
     private lateinit var impressionListAdapter: ImpressionListAdapter
-    private lateinit var homeButton : ImageButton
-    private lateinit var detailsButton: ImageButton
+    private lateinit var homeButton : Button
+    private lateinit var detailsButton: Button
     private lateinit var logo : ImageView
     private lateinit var description : TextView
 
@@ -53,7 +53,7 @@ class GameDetailActivity : AppCompatActivity(){
             finish()
         }
         homeButton.setOnClickListener(){
-            val intent = Intent(this,MainActivity::class.java).apply {
+            val intent = Intent(this,HomeActivity::class.java).apply {
                 putExtra("game_title",game.title)
             }
             startActivity(intent)

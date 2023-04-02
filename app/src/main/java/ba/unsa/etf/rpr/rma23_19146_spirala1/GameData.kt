@@ -50,7 +50,7 @@ class GameData {
                         "expansion to the uncompromising wilderness survival game, Don't Starve.",arrayListOf<UserImpression>())
             ,Game("Terraria","PC","16.05.2011",10.0,"terraria","T","Re-Logic","Re-Logic",
                     "Sandbox","Dig, fight, explore, build! Nothing is impossible in this action-packed adventure game.",arrayListOf<UserImpression>()),
-            Game("Left 4 Dead 2","PC","17.11.2009",10.0,"l4d2","M","Valve","Valve","Zombies",
+            Game("Left 4 Dead 2","PC","17.11.2009",10.0,"left4dead2","M","Valve","Valve","Zombies",
             "Set in the zombie apocalypse, Left 4 Dead 2 (L4D2) is the highly anticipated sequel to the award-winning Left 4 Dead, the #1 co-op game of 2008" +
                     ". This co-operative action horror FPS takes you and your friends through the cities, swamps and cemeteries of the Deep South, from Savannah to " +
                     "New Orleans",arrayListOf<UserImpression>()),
