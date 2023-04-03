@@ -47,7 +47,7 @@ class GameDetailActivity : AppCompatActivity(){
         description = findViewById(R.id.description_textview)
         val extras = intent.extras
         if(extras != null){
-            game = GameData.getDetails(extras.getString("game_title",""))
+            game = GameData.getDetails(extras.getString("game_title",""))!!
             populateDetails()
         } else{
             finish()
@@ -62,11 +62,12 @@ class GameDetailActivity : AppCompatActivity(){
         impressionList.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         impressionListAdapter = ImpressionListAdapter(listOf())
         impressionList.adapter = impressionListAdapter
-        impressionListAdapter.updateImpressions(GameData.getDetails(game.title).userImpressions)
+        GameData.getDetails(game.title)
+            ?.let { impressionListAdapter.updateImpressions(it.userImpressions) }
 
     }
-
-    /*override fun onBackPressed() { // sa ovim bi pamtilo zadnju igru i sa pritisnutim back ali asistent Irfan je rekao da nije problem ako ne implementiramo
+    /*Sa ovim koodom bi program pamtio da se iz detalja igre izadje back buttonom, ali asistent Irfan je napisao da nije problem ako ne implementiramo ovo.
+    override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this,HomeActivity::class.java).apply {
             putExtra("game_title",game.title)

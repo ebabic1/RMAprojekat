@@ -80,9 +80,8 @@ class GameData {
 
 
         }
-        fun getDetails(title: String): Game {
-            val game = getAll().find{ it.title == title}
-            return game?: Game(" "," "," ", 0.0," "," "," "," "," "," ", arrayListOf());
+        fun getDetails(title: String): Game? {
+            return getAll().find { it.title == title }
         }
     }
 }
