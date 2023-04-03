@@ -10,18 +10,17 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.PositionAssertions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.`is` as Is
 import org.junit.Assert.assertTrue
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+
 @RunWith(AndroidJUnit4::class)
 class TestLayout {
     fun hasItemCount(n: Int) = object : ViewAssertion {
@@ -56,7 +55,7 @@ class TestLayout {
         onView(withId(R.id.game_list)).perform(RecyclerViewActions.scrollToPosition<ViewHolder>(0)).check(matches(allOf(
             hasDescendant(withId(R.id.game_title_textview)),
             hasDescendant(withId(R.id.game_rating_textview)),
-            hasDescendant(withId(R.id.release_date)),
+            hasDescendant(withId(R.id.game_release_date_textview)),
             hasDescendant(withId(R.id.game_platform_textview)),
             hasDescendant(withId(R.id.game_rating_textview))
         )))

@@ -63,7 +63,16 @@ class GameDetailActivity : AppCompatActivity(){
         impressionListAdapter = ImpressionListAdapter(listOf())
         impressionList.adapter = impressionListAdapter
         impressionListAdapter.updateImpressions(GameData.getDetails(game.title).userImpressions)
+
     }
+
+    /*override fun onBackPressed() { // sa ovim bi pamtilo zadnju igru i sa pritisnutim back ali asistent Irfan je rekao da nije problem ako ne implementiramo
+        super.onBackPressed()
+        val intent = Intent(this,HomeActivity::class.java).apply {
+            putExtra("game_title",game.title)
+        }
+        startActivity(intent)
+    }*/
     override fun onResume() {
         super.onResume()
         homeButton.isEnabled = true
