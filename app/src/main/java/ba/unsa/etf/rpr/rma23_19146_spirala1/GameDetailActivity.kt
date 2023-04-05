@@ -22,7 +22,6 @@ class GameDetailActivity : AppCompatActivity(){
     private lateinit var publisher : TextView
     private lateinit var cover : ImageView
     private lateinit var impressionList : RecyclerView
-    private lateinit var impressions : List<UserImpression>
     private lateinit var impressionListAdapter: ImpressionListAdapter
     private lateinit var homeButton : Button
     private lateinit var detailsButton: Button
@@ -66,14 +65,14 @@ class GameDetailActivity : AppCompatActivity(){
             ?.let { impressionListAdapter.updateImpressions(it.userImpressions) }
 
     }
-    /*Sa ovim koodom bi program pamtio da se iz detalja igre izadje back buttonom, ali asistent Irfan je napisao da nije problem ako ne implementiramo ovo.
+
     override fun onBackPressed() {
-        super.onBackPressed()
         val intent = Intent(this,HomeActivity::class.java).apply {
             putExtra("game_title",game.title)
         }
         startActivity(intent)
-    }*/
+    }
+
     override fun onResume() {
         super.onResume()
         homeButton.isEnabled = true
