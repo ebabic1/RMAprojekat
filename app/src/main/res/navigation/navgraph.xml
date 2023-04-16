@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navgraph"
+    app:startDestination="@id/homeItem">
+
+    <fragment
+        android:id="@+id/gameDetailsItem"
+        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.GameDetailFragment"
+        android:label="GameDetailFragment"
+        />
+    <fragment
+        android:id="@+id/homeItem"
+        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_gameDetailFragment"
+            app:destination="@id/gameDetailsItem"
+            />
+    </fragment>
+</navigation>
