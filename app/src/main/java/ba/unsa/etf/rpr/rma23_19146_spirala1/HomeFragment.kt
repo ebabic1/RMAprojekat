@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
             frag.commit {
                 replace<GameDetailFragment>(R.id.nav_host_fragment_container_second)
                 setReorderingAllowed(false)
-                addToBackStack(null)
+                //addToBackStack(null)
             }
 
         }
