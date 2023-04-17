@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.rma23_19146_spirala1
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -42,7 +45,7 @@ class GameDetailFragment : Fragment(){
         publisher = view.findViewById(R.id.publisher_textview)
         description = view.findViewById(R.id.description_textview)
         gameTitle = arguments?.getString("game_title").toString()
-        if (arguments == null) gameTitle = (activity as HomeActivity).gameTitle.toString()
+        if (arguments == null) gameTitle = (activity as HomeActivity).gameTitle.toString() //workaround ali jedino ovako radi ako load fragmenta nije iniciran pritiskom buttona
         populateDetails(gameTitle)
         impressionList = view.findViewById(R.id.impression_recyclerview)
         impressionList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)

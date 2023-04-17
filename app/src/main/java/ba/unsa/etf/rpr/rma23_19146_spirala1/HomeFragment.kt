@@ -37,13 +37,18 @@ class HomeFragment : Fragment() {
         gameListAdapter.updateGames(games)
         return view
     }
+
+
+
     companion object {
         fun newInstance(): HomeFragment = HomeFragment()
     }
     private fun showGameDetails(game:Game){
         val orientation = resources.configuration.orientation
         (activity as HomeActivity).gameTitle = game.title
-        // koristim tranzakcije jer ovo nije main fragment i nema veze sa navgraphom
+        /**
+         * Ovaj kood mijenja desni fragment na igru koja se klikne na lijevom u landscape prikazu
+         */
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             val frag = (activity as HomeActivity).supportFragmentManager
@@ -52,15 +57,13 @@ class HomeFragment : Fragment() {
                 setReorderingAllowed(false)
                 addToBackStack(null)
             }
+
         }
         else{
             (activity as HomeActivity).navView.menu.getItem(1).isEnabled = true
             val bundle = bundleOf("game_title" to game.title)
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_gameDetailFragment,bundle)
         }
-
-
-
     }
 
 }
