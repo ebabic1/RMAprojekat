@@ -38,8 +38,6 @@ class HomeFragment : Fragment() {
         return view
     }
 
-
-
     companion object {
         fun newInstance(): HomeFragment = HomeFragment()
     }
@@ -52,11 +50,9 @@ class HomeFragment : Fragment() {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
         {
             val frag = (activity as HomeActivity).supportFragmentManager
-            frag.commit {
-                replace<GameDetailFragment>(R.id.nav_host_fragment_container_second)
-                setReorderingAllowed(false)
-                //addToBackStack(null)
-            }
+            val navHostFragment = frag.findFragmentById(R.id.nav_host_fragment_container_second)
+            navHostFragment?.findNavController()
+                ?.navigate(R.id.gameDetailFragment,null,NavOptions.Builder().setPopUpTo(R.id.homeItem,true).build())
 
         }
         else{

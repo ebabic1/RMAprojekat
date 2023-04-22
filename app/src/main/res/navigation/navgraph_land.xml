@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navgraph_land"
+    app:startDestination="@id/gameDetailFragment">
+
+    <fragment
+        android:id="@+id/gameDetailFragment"
+        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.GameDetailFragment"
+        android:label="GameDetailFragment" />
+</navigation>

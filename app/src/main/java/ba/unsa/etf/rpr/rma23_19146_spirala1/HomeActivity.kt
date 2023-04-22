@@ -38,8 +38,6 @@ class HomeActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         navView = findViewById(R.id.bottom_nav)
         navView.setupWithNavController(navController)
-
-
         navController.navigate(R.id.homeItem,null,NavOptions.Builder().setPopUpTo(R.id.homeItem,true).build())
         navView.setOnItemSelectedListener { it ->
             if (it.itemId == R.id.gameDetailsItem) {

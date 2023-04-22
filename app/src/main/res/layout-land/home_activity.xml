@@ -40,9 +40,10 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_container_second"
-        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.GameDetailFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:navGraph = "@navigation/navgraph_land"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nav_host_fragment_container"

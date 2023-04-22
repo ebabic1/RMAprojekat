@@ -1,7 +1,6 @@
 package ba.unsa.etf.rpr.rma23_19146_spirala1
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 
@@ -10,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -35,7 +32,7 @@ class GameDetailFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View{
         val view = inflater.inflate(R.layout.game_details_fragment,container,false)
-        title = view.findViewById(R.id.game_title_textview)
+        title = view.findViewById(R.id.item_title_textview)
         cover = view.findViewById(R.id.cover_imageview)
         platform = view.findViewById(R.id.platform_textview)
         release = view.findViewById(R.id.release_date_textview)
