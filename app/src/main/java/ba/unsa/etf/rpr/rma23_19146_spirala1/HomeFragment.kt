@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
 
         }
         else{
-            (activity as HomeActivity).navView.menu.getItem(1).isEnabled = true
+            (activity as HomeActivity).navView?.menu?.getItem(1)?.isEnabled = true
             val bundle = bundleOf("game_title" to game.title)
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_gameDetailFragment,bundle)
         }

@@ -28,7 +28,7 @@ class HomeActivity : AppCompatActivity() {
     private var games = GameData.getAll()
     private lateinit var detailsButton: Button
     var gameTitle: String? = GameData.getAll()[0].title
-    lateinit var navView: BottomNavigationView
+    var navView: BottomNavigationView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,31 +36,27 @@ class HomeActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
-        navView = findViewById(R.id.bottom_nav)
-        navView.setupWithNavController(navController)
         navController.navigate(R.id.homeItem,null,NavOptions.Builder().setPopUpTo(R.id.homeItem,true).build())
-        navView.setOnItemSelectedListener { it ->
-            if (it.itemId == R.id.gameDetailsItem) {
-                val bundle = bundleOf("game_title" to gameTitle)
-                navController.navigate(R.id.gameDetailsItem, bundle)
-            }
-            if (it.itemId == R.id.homeItem) {
-                navController.navigate(R.id.homeItem,null,NavOptions.Builder().setPopUpTo(R.id.homeItem,true).build())
-            }
-            true
-        }
-        homeButton = findViewById(R.id.home_button)
-        detailsButton = findViewById(R.id.details_button)
-        detailsButton.isEnabled = false
         val orientation = resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+        if (orientation == Configuration.ORIENTATION_PORTRAIT)
         {
-            navView.visibility = View.GONE
+            navView = findViewById(R.id.bottom_nav)
+            navView?.setupWithNavController(navController)
+            navView?.setOnItemSelectedListener { it ->
+                if (it.itemId == R.id.gameDetailsItem) {
+                    val bundle = bundleOf("game_title" to gameTitle)
+                    navController.navigate(R.id.gameDetailsItem, bundle)
+                }
+                if (it.itemId == R.id.homeItem) {
+                    navController.navigate(R.id.homeItem,null,NavOptions.Builder().setPopUpTo(R.id.homeItem,true).build())
+                }
+                true
+            }
+            homeButton = findViewById(R.id.home_button)
+            detailsButton = findViewById(R.id.details_button)
+            navView?.menu?.getItem(1)?.isEnabled = false
         }
-        else{
-            navView.visibility = View.VISIBLE
-            navView.menu.getItem(1).isEnabled=false
-        }
+
     }
 
     override fun onResume() {
@@ -68,8 +64,10 @@ class HomeActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_PORTRAIT){
         navView = findViewById(R.id.bottom_nav)
-        navView.selectedItemId = R.id.homeItem
+        navView?.selectedItemId = R.id.homeItem}
     }
 
 
