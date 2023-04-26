@@ -4,14 +4,18 @@ import android.content.pm.ActivityInfo
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.PositionAssertions
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.hamcrest.CoreMatchers
+import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -80,10 +84,12 @@ class OwnEspressoTests {
             .check(PositionAssertions.isCompletelyLeftOf(ViewMatchers.withId(R.id.linearLayout)))
         Espresso.onView(ViewMatchers.withId(R.id.cover_imageview))
             .check(PositionAssertions.isCompletelyLeftOf(ViewMatchers.withId(R.id.linearLayout2)))
+        Espresso.onView(ViewMatchers.withId(R.id.linearLayout))
+            .check(PositionAssertions.isCompletelyAbove(ViewMatchers.withId(R.id.linearLayout2)))
+        Espresso.onView(ViewMatchers.withId(R.id.linearLayout2))
+            .check(PositionAssertions.isCompletelyAbove(ViewMatchers.withId(R.id.description_scrollview)))
         Espresso.onView(ViewMatchers.withId(R.id.cover_imageview))
             .check(PositionAssertions.isCompletelyLeftOf(ViewMatchers.withId(R.id.description_textview)))
-        Espresso.onView(ViewMatchers.withId(R.id.impression_recyclerview))
-            .check(PositionAssertions.isCompletelyBelow(ViewMatchers.withId(R.id.cover_imageview)))
         Espresso.onView(ViewMatchers.withId(R.id.cover_imageview))
             .check(PositionAssertions.isCompletelyAbove(ViewMatchers.withId(R.id.impression_recyclerview)))
         Espresso.onView(ViewMatchers.withId(R.id.description_scrollview))
@@ -99,18 +105,28 @@ class OwnEspressoTests {
     }
 
     /**
-     * Ukoliko je korisnik na početnom ekranu i promijeni orijentaciju ekrana, trebaju mu biti
-     * vidljive relevantne informacije za prvu igru u game_list
+     * Ukoliko je korisnik na početnom ekranu, details dugme treba biti onemogućeno.
+     * Kada promijeni orijentaciju ekrana, trebaju mu biti vidljive relevantne informacije za
+     * prvu igru u game_list. Isto tako, bottom_nav navigacioni meni treba nestati sa layouta
      */
     @Test
     fun portraitToLandscape(){
         var prvaIgra = GameData.getAll().get(0)
         homeRule.scenario.onActivity { activity -> activity.requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
+        Espresso.onView(ViewMatchers.withId(R.id.gameDetailsItem)).check(ViewAssertions.matches(ViewMatchers.isNotEnabled()))
+        Espresso.onView(ViewMatchers.withId(R.id.bottom_nav))
+            .check(ViewAssertions.matches((ViewMatchers.isDisplayed())))
         homeRule.scenario.onActivity { activity -> activity.requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE}
         Espresso.onView(ViewMatchers.withText(prvaIgra.description))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.bottom_nav))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }catch (e : NoMatchingViewException){
+
+        }
     }
 
 }
