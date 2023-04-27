@@ -105,13 +105,30 @@ class OwnEspressoTests {
     }
 
     /**
-     * Ukoliko je korisnik na početnom ekranu, details dugme treba biti onemogućeno.
-     * Kada promijeni orijentaciju ekrana, trebaju mu biti vidljive relevantne informacije za
-     * prvu igru u game_list. Isto tako, bottom_nav navigacioni meni treba nestati sa layouta
+     * Kada korisnik promijeni orijentaciju ekrana, trebaju mu biti vidljive relevantne informacije za
+     * prvu igru u game_list.
      */
     @Test
     fun portraitToLandscape(){
         var prvaIgra = GameData.getAll().get(0)
+        homeRule.scenario.onActivity { activity -> activity.requestedOrientation =
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE}
+        Espresso.onView(ViewMatchers.withText(prvaIgra.description))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        try {
+            Espresso.onView(ViewMatchers.withId(R.id.bottom_nav))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        }catch (e : NoMatchingViewException){
+
+        }
+    }
+
+    /**
+     * Ukoliko je korisnik na početnom ekranu, details dugme treba biti onemogućeno
+     * Isto tako, ukoliko je u landscape orijentaciji, bottom navigation ne smije biti vidljiv
+     */
+    @Test
+    fun testBottomNav(){
         homeRule.scenario.onActivity { activity -> activity.requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT}
         Espresso.onView(ViewMatchers.withId(R.id.gameDetailsItem)).check(ViewAssertions.matches(ViewMatchers.isNotEnabled()))
@@ -119,8 +136,6 @@ class OwnEspressoTests {
             .check(ViewAssertions.matches((ViewMatchers.isDisplayed())))
         homeRule.scenario.onActivity { activity -> activity.requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE}
-        Espresso.onView(ViewMatchers.withText(prvaIgra.description))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         try {
             Espresso.onView(ViewMatchers.withId(R.id.bottom_nav))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
