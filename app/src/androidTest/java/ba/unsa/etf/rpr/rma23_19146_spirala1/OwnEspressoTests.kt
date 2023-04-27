@@ -105,7 +105,7 @@ class OwnEspressoTests {
     }
 
     /**
-     * Kada korisnik promijeni orijentaciju ekrana, trebaju mu biti vidljive relevantne informacije za
+     * Kada korisnik promijeni orijentaciju ekrana u landscape, trebaju mu biti vidljive relevantne informacije za
      * prvu igru u game_list.
      */
     @Test
