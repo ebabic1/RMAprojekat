@@ -6,6 +6,6 @@
 
     <fragment
         android:id="@+id/gameDetailFragment"
-        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.GameDetailFragment"
+        android:name="ba.etf.rma23.projekat.GameDetailFragment"
         android:label="GameDetailFragment" />
 </navigation>

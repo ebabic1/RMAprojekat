@@ -4,34 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".MainActivity">
 
     <Button
         android:id="@+id/search_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/search_icon_foreground"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/search_query_edittext"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/filter_button"
+        app:layout_constraintStart_toEndOf="@+id/search_query_edittext"
         app:layout_constraintTop_toTopOf="@+id/search_query_edittext"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/search_query_edittext"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_width="254dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:text="Search"
         app:layout_constraintBottom_toTopOf="@+id/game_list"
         app:layout_constraintEnd_toStartOf="@+id/search_button"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/game_list"
@@ -40,13 +40,85 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/set_age_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_button">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/filter_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/filter_icon_foreground"
+        app:layout_constraintBottom_toBottomOf="@+id/search_button"
+        app:layout_constraintEnd_toStartOf="@+id/sort_button"
+        app:layout_constraintStart_toEndOf="@+id/search_button"
+        app:layout_constraintTop_toTopOf="@+id/search_button" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Age: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/set_age_button" />
+
+    <EditText
+        android:id="@+id/age_edittext"
+        android:layout_width="40dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="4dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/set_age_button" />
+
+    <Button
+        android:id="@+id/set_age_button"
+        android:layout_width="65dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="9dp"
+        android:text="Set"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/age_edittext" />
+
+    <Button
+        android:id="@+id/favorites_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="160dp"
+        android:background="@drawable/favorites_icon_foreground"
+        app:layout_constraintBottom_toBottomOf="@+id/filter_favorites_button"
+        app:layout_constraintStart_toEndOf="@+id/set_age_button"
+        app:layout_constraintTop_toTopOf="@+id/filter_favorites_button" />
+
+    <Button
+        android:id="@+id/filter_favorites_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="9dp"
+        android:background="@drawable/filter_icon_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/favorites_button"
+        app:layout_constraintTop_toBottomOf="@+id/game_list" />
+
+    <Button
+        android:id="@+id/sort_button"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:text="sort"
+        app:layout_constraintBottom_toBottomOf="@+id/filter_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/filter_button"
+        app:layout_constraintTop_toTopOf="@+id/filter_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

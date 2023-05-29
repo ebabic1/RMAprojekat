@@ -6,12 +6,12 @@
 
     <fragment
         android:id="@+id/gameDetailsItem"
-        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.GameDetailFragment"
+        android:name="ba.etf.rma23.projekat.GameDetailFragment"
         android:label="GameDetailFragment"
         />
     <fragment
         android:id="@+id/homeItem"
-        android:name="ba.unsa.etf.rpr.rma23_19146_spirala1.HomeFragment"
+        android:name="ba.etf.rma23.projekat.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_gameDetailFragment"

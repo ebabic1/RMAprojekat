@@ -2,13 +2,13 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
-
+apply plugin: 'kotlin-kapt'
 android {
-    namespace 'ba.unsa.etf.rpr.rma23_19146_spirala1'
+    namespace 'ba.etf.rma23.projekat'
     compileSdk 33
 
     defaultConfig {
-        applicationId "ba.unsa.etf.rpr.rma23_19146_spirala1"
+        applicationId "ba.etf.rma23.projekat"
         minSdk 29
         targetSdk 33
         versionCode 1
@@ -22,8 +22,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            testCoverageEnabled = true
+        debug{
+            buildConfigField 'String', "IGDB_API_KEY", "\"Bearer tctzftpu33k8lqmhde107y9bntza70\""
+            buildConfigField 'String', "IGDB_CLIENT_ID", "\"w8r77nwoos0xww2uamczbyqvqn0j2o\""
+            buildConfigField 'String', "HASH", "\"c1641d62-60c3-4697-b9c0-f4791d204ffe\""
         }
     }
     compileOptions {
@@ -34,8 +36,12 @@ android {
         jvmTarget = '1.8'
     }
 }
-
 dependencies {
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    kapt 'com.github.bumptech.glide:compiler:4.14.2'
+    implementation 'com.squareup.retrofit2:retrofit:+'
+    implementation 'com.squareup.retrofit2:converter-gson:+'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
