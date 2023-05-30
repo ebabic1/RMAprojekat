@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         gameList.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         gameListAdapter = GameListAdapter(arrayListOf()){game -> showGameDetails(game)}
         gameList.adapter = gameListAdapter
-        gameListAdapter.updateGames(games)
+        gameListAdapter.updateGames(GameData.initialGames)
         searchButton.setOnClickListener {
             getGamesByName(searchText.text.toString())
         }
@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
         sortButton.setOnClickListener {
             val scope = CoroutineScope(Job() + Dispatchers.Main)
             scope.launch {
-                IGDBApiConfig.GamesRepository.sortGames(activity as MainActivity)
+                gameListAdapter.updateGames(IGDBApiConfig.GamesRepository.sortGames())
             }
 
         }
@@ -119,6 +119,8 @@ class HomeFragment : Fragment() {
         }
         return view
     }
+
+
     companion object {
         fun newInstance(): HomeFragment = HomeFragment()
     }
@@ -140,9 +142,7 @@ class HomeFragment : Fragment() {
         val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
         toast.show()
     }
-    suspend fun sortDisplayedGames(){
 
-    }
     private fun showGameDetails(game:Game){
         val orientation = resources.configuration.orientation
         (activity as MainActivity).gameTitle = game.title
