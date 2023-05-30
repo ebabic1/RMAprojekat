@@ -31,16 +31,10 @@ class IGDBApiConfig {
             }
         }
 
-        /**
-         * Ovo ne bi trebalo primati ništa?
-         */
-        suspend fun sortGames(f : MainActivity):List<Game>{
+
+        suspend fun sortGames():List<Game>{
             val sortingList = AccountApiConfig.AccountGamesRepository.getSavedGames()
             val sortedList = GameData.initialGames.sortedByDescending {sortingList.contains(it)}
-            val navHostFragment = f.supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container)
-            if (navHostFragment != null){
-                (navHostFragment.childFragmentManager.fragments.get(0) as HomeFragment).gameListAdapter.updateGames(sortedList)
-            }
             return sortedList
         }
 
