@@ -1,12 +1,10 @@
 package ba.etf.rma23.projekat.data.repositories
 
-import android.util.Log
 import ba.etf.rma23.projekat.BuildConfig
 import ba.etf.rma23.projekat.Game
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 
-import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -26,12 +24,12 @@ interface Api {
                         @Field("client_secret") client_secret:String ="qtlqhxadjd9y4jjit6j8ksm5zieghw",
                         @Field("grant_type") grant_type :String = "client_credentials") : Response<AuthPostResponse>
     @Headers("Content-Type: application/json; charset=utf-8")
-    @POST("account/${BuildConfig.HASH}/game")
-    suspend fun saveGamePOST(@Body game : JsonObject)
-    @GET("account/${BuildConfig.HASH}/games")
-    suspend fun getSavedGamesPOST() : Response<List<GetSavedGamesResponse>>
-    @DELETE("account/${BuildConfig.HASH}/game/{gid}")
-    suspend fun removeGame(@Path("gid") gid : Int) : Response<Void>
+    @POST("account/{hash}/game")
+    suspend fun saveGamePOST( @Body j : JsonObject,@Path("hash") hash: String? = AccountApiConfig.AccountGamesRepository.getHash())
+    @GET("account/{hash}/games")
+    suspend fun getSavedGamesPOST(@Path("hash") hash: String? = AccountApiConfig.AccountGamesRepository.getHash()) : Response<List<GetSavedGamesResponse>>
+    @DELETE("account/{hash}/game/{gid}")
+    suspend fun removeGame(@Path("gid") gid: Int,@Path("hash") hash: String? = AccountApiConfig.AccountGamesRepository.getHash()) : Response<Void>
     object ApiAdapter {
         val okhttp = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -72,7 +70,7 @@ interface Api {
             var newGames: ArrayList<Game> = arrayListOf()
             for(game in responseBody){
                 val item = game.companies?.get(0)?.company?.let {
-                    Game(game.title,
+                    Game(game.igdb_id,game.title,
                         game.platforms?.get(0)?.name ?: "",
                         DateTimeFormatter.ISO_INSTANT
                             .format(Instant.ofEpochSecond(game.releaseDates?.get(0)?.releaseDate ?:0)),Math.round(game.rating?.times(
@@ -80,7 +78,7 @@ interface Api {
                         ) ?: 0.0) / 100.0?:0.0,
                         game.artworks?.get(0)?.imageId ?:"","", it.name,"",
                         game.genres?.get(0)?.name ?:"",game.description.toString()?:"",
-                        listOf(),game.igdb_id
+                        listOf()
                     )
 
                 }
