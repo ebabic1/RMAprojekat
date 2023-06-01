@@ -1,6 +1,6 @@
 package ba.etf.rma23.projekat.data.repositories
 
-import android.widget.Toast
+import ba.etf.rma23.projekat.BuildConfig
 import ba.etf.rma23.projekat.Game
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
@@ -13,7 +13,7 @@ class AccountApiConfig {
 
         const val baseUrl = "https://rma23ws.onrender.com/"
         private var localAge : Int? = null
-        private var hash : String? = null
+        private var hash : String = BuildConfig.HASH
         fun setAge(age:Int): Boolean{
             if (age >= 3 && age <= 100){
                 localAge = age
@@ -47,7 +47,7 @@ class AccountApiConfig {
                     val safeList = Api.ApiAdapter.removeNonSafeFromList(nonSafeList)
                     nonSafeList.minus(safeList) as ArrayList<Game>
                     for(game in nonSafeList){
-                        AccountApiConfig.AccountGamesRepository.removeGame(game.igdb_id)
+                        AccountApiConfig.AccountGamesRepository.removeGame(game.id)
                     }
                     return@withContext true
                 }
@@ -59,7 +59,8 @@ class AccountApiConfig {
         suspend fun saveGame(game: Game): Game {
             return withContext(Dispatchers.IO){
                 val paramObject = JsonObject()
-                paramObject.addProperty("igdb_id", game.igdb_id)
+                paramObject.addProperty("id", game.id)
+                paramObject.addProperty("igdb_id", game.id)
                 paramObject.addProperty("name", game.title)
                 val o = JsonObject()
                 o.add("game",paramObject)
@@ -83,7 +84,7 @@ class AccountApiConfig {
                         var nameGames = IGDBApiConfig.GamesRepository.getGamesByName(item.name)
                         if (nameGames != null) {
                             for(namegame in nameGames){
-                                if (namegame.igdb_id == item.igdb_id) {
+                                if (namegame.id == item.igdb_id) {
                                     gameList.add(namegame)
                                     break
                                 }

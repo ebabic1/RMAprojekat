@@ -7,11 +7,13 @@ import kotlin.collections.ArrayList
 class IGDBApiConfig {
     private val baseURL = "https://api.igdb.com/v4"
     object GamesRepository{
-        suspend fun getGamesByName(name:String):List<Game>?{
+        suspend fun getGamesByName(name:String): List<Game> {
             return withContext(Dispatchers.IO){
                 var response = Api.ApiAdapter.retrofit.getGamesByName(name)
                 val responseBody = response.body()
-                return@withContext responseBody?.let { Api.ApiAdapter.responseToGame(it) } //mozda bude problem ako je null
+                val returnList = responseBody?.let { Api.ApiAdapter.responseToGame(it) }
+                GameData.initialGames = returnList as ArrayList<Game>
+                return@withContext returnList //mozda bude problem ako je null
             }
         }
         suspend fun getGamesSafe(name:String):List<Game>?{

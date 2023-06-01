@@ -72,7 +72,7 @@ class GameDetailFragment : Fragment(){
                     AccountApiConfig.AccountGamesRepository.saveGame(gameTitle.let { GameData.getDetails(it) }!!)
                     Toast.makeText(context,"$gameTitle added to favorites",Toast.LENGTH_SHORT)
                 }
-                else GameData.getDetails(gameTitle)?.igdb_id?.let { it1 ->
+                else GameData.getDetails(gameTitle)?.id?.let { it1 ->
                     AccountApiConfig.AccountGamesRepository.removeGame(
                         it1
                     )

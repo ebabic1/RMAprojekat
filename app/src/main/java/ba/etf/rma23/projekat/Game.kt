@@ -1,9 +1,7 @@
 package ba.etf.rma23.projekat
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-
 data class Game (
+    val id : Int=0,
     val title: String,
     val platform: String,
     val releaseDate: String,
@@ -14,7 +12,6 @@ data class Game (
     var publisher: String,
     val genre: String,
     var description: String,
-    val userImpressions: List<UserImpression>,
-    val igdb_id : Int=0
+    val userImpressions: List<UserImpression>
 )
 
