@@ -7,7 +7,7 @@ class GameData {
         var prevGame : Game? = null
         var favoriteGames : List<Game> = listOf()
         var initialGames = arrayListOf<Game>()
-             /*arrayListOf<Game>(Game(1,"Elden Ring","PC","25.02.2022",9.0,"eldenring","M",
+        var staticGames = arrayListOf<Game>(Game(1,"Elden Ring","PC","25.02.2022",9.0,"eldenring","M",
                 "FromSoftware Inc.","Bandai Namco","Soulsborne",
                 "Elden Ring[a] is a 2022 action role-playing game developed by FromSoftware and " +
                         "published by Bandai Namco Entertainment. Directed by Hidetaka Miyazaki with worldbuilding " +
@@ -80,7 +80,7 @@ class GameData {
                             " as the buy menu, spray patterns, and inaccuracy while moving.",arrayListOf<UserImpression>()),
                 Game(10,"Team Fortress 2","PC","10.10.2007",9.0,"teamfortress2","M","Valve","Valve","Hero Shooter","Nine distinct" +
                         " classes provide a broad range of tactical abilities and personalities. Constantly updated with new game modes, maps, equipment and, most importantly, hats!",arrayListOf<UserImpression>())
-            )*/
+            )
 
 
 

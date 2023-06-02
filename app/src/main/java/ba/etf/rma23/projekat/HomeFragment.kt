@@ -29,7 +29,6 @@ class HomeFragment : Fragment() {
     lateinit var gameListAdapter: GameListAdapter
     private lateinit var searchButton : Button
     private lateinit var searchText :EditText
-    private var games = GameData.initialGames
     private lateinit var filterButton : Button
     private lateinit var setAgeButton : Button
     private lateinit var favoritesButton: Button
