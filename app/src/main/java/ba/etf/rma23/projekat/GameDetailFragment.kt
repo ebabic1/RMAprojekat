@@ -92,7 +92,7 @@ class GameDetailFragment : Fragment(){
         {   GameData.prevGame = prevGame
             game = gameTitle.let { GameData.getDetails(it) }!!}
         else {
-            game = GameData.prevGame!!
+            game = GameData.prevGame?:GameData.staticGames.get(0)
         }
         title.text = game.title
         platform.text = game.platform
