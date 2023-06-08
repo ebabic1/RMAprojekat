@@ -1,7 +1,7 @@
-package ba.etf.rma23.projekat
-
-
-import ba.etf.rma23.projekat.data.repositories.AccountApiConfig
+package ba.etf.rma23
+import  ba.etf.rma23.projekat.data.repositories.AccountApiConfig
+import  ba.etf.rma23.projekat.data.*
+import  ba.etf.rma23.projekat.*
 import ba.etf.rma23.projekat.data.repositories.IGDBApiConfig
 import kotlinx.coroutines.*
 

@@ -65,11 +65,15 @@ class HomeFragment : Fragment() {
             }
         }
         setAgeButton.setOnClickListener {
-            val age : Int = if(ageText.text.toString() != "") ageText.text.toString().toInt() else -1
-            if(AccountApiConfig.AccountGamesRepository.setAge(age))
-                Toast.makeText(context,"Age set!",Toast.LENGTH_SHORT).show()
-            else
+            try{
+                val age : Int = if(ageText.text.toString() != "") ageText.text.toString().toInt() else -1
+                if(AccountApiConfig.AccountGamesRepository.setAge(age))
+                    Toast.makeText(context,"Age set!",Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(context,"Invalid age!",Toast.LENGTH_SHORT).show()
+            }catch (e: NumberFormatException){
                 Toast.makeText(context,"Invalid age!",Toast.LENGTH_SHORT).show()
+            }
 
         }
         /**
@@ -83,7 +87,7 @@ class HomeFragment : Fragment() {
                 GameData.favoriteGames = gamesList
                 if (searchText.text.toString() != ""){
                     gameListAdapter.updateGames(AccountApiConfig.AccountGamesRepository.getGamesContainingString(searchText.text.toString()))
-                    Toast.makeText(context,"Omiljene igre za query: ${searchText.text.toString()}",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Omiljene igre za query",Toast.LENGTH_SHORT).show()
                 }
                 else{
                     gameListAdapter.updateGames(gamesList)
@@ -135,7 +139,8 @@ class HomeFragment : Fragment() {
     }
     fun onSuccess(games: List<Game>){
         gameListAdapter.updateGames(games)
-        GameData.initialGames = games as ArrayList<Game>
+        if (games.isNotEmpty())
+            GameData.initialGames = games as ArrayList<Game>
     }
     fun onError() {
         val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)

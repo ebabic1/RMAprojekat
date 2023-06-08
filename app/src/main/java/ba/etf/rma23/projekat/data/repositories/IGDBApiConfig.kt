@@ -12,8 +12,13 @@ class IGDBApiConfig {
                 var response = Api.ApiAdapter.retrofit.getGamesByName(name)
                 val responseBody = response.body()
                 val returnList = responseBody?.let { Api.ApiAdapter.responseToGame(it) }
-                GameData.initialGames = returnList as ArrayList<Game>
-                return@withContext returnList //mozda bude problem ako je null
+                if (returnList != null) {
+                    if (!returnList.isEmpty()) {
+                        GameData.initialGames = returnList as ArrayList<Game>
+                        return@withContext returnList //mozda bude problem ako je null
+                    }
+                }
+               return@withContext listOf()
             }
         }
         suspend fun getGamesSafe(name:String):List<Game>?{
@@ -21,7 +26,9 @@ class IGDBApiConfig {
                 var response : ArrayList<Game> = arrayListOf()
                 if (AccountApiConfig.AccountGamesRepository.getAge() == null)
                     return@withContext response
+
                 response = getGamesByName(name) as ArrayList<Game>
+
                 return@withContext Api.ApiAdapter.removeNonSafeFromList(response)
             }
         }

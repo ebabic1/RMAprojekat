@@ -1,7 +1,9 @@
 package ba.etf.rma23.projekat.data.repositories
 
+import android.util.Log
 import ba.etf.rma23.projekat.BuildConfig
 import ba.etf.rma23.projekat.Game
+import ba.etf.rma23.projekat.GameData
 import com.google.gson.JsonObject
 import kotlinx.coroutines.*
 
@@ -44,10 +46,17 @@ class AccountApiConfig {
                 if(getAge()!=null)
                 {
                     var nonSafeList : ArrayList<Game> = getSavedGames() as ArrayList<Game>
-                    val safeList = Api.ApiAdapter.removeNonSafeFromList(nonSafeList)
-                    nonSafeList.minus(safeList) as ArrayList<Game>
+                    var tempList : ArrayList<Game> = getSavedGames() as ArrayList<Game>
                     for(game in nonSafeList){
-                        AccountApiConfig.AccountGamesRepository.removeGame(game.id)
+                        Log.d("AAAAAAAAAAAAAAAAAAA",game.title)
+                    }
+
+                    //nonsafelist je sada lista sigurnih igara
+                    Api.ApiAdapter.removeNonSafeFromList(nonSafeList)
+                    var filteredList = nonSafeList.minus(tempList)
+                    for(game in tempList){
+                        if(!nonSafeList.contains(game))
+                            removeGame(game.id)
                     }
                     return@withContext true
                 }
@@ -81,7 +90,9 @@ class AccountApiConfig {
                 var response = Api.ApiAdapter.retrofitAccount.getSavedGamesPOST().body()
                 if (response != null) {
                     for(item in response){
+                        var initialGameSave = GameData.initialGames;
                         var nameGames = IGDBApiConfig.GamesRepository.getGamesByName(item.name)
+                        GameData.initialGames = initialGameSave;
                         if (nameGames != null) {
                             for(namegame in nameGames){
                                 if (namegame.id == item.igdb_id) {

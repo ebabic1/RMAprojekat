@@ -50,12 +50,15 @@ class GameDetailFragment : Fragment(){
         description = view.findViewById(R.id.description_textview)
         gameTitle = arguments?.getString("game_title").toString()
         if (arguments == null) gameTitle = (activity as MainActivity).gameTitle.toString() //workaround ali jedino ovako radi ako load fragmenta nije iniciran pritiskom buttona
+        favoriteButton.isChecked = false;
         populateDetails(gameTitle)
         impressionList = view.findViewById(R.id.impression_recyclerview)
         impressionList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         impressionListAdapter = ImpressionListAdapter(listOf())
         impressionList.adapter = impressionListAdapter
         val scope = CoroutineScope(Job() + Dispatchers.Main)
+        var check = GameData.favoriteGames.find { it.title == gameTitle }
+        favoriteButton.isChecked = check == null
         scope.launch {
             favoriteButton.isChecked = AccountApiConfig.AccountGamesRepository.getSavedGames().contains(GameData.getDetails(gameTitle))
             favorited = favoriteButton.isChecked
@@ -70,13 +73,13 @@ class GameDetailFragment : Fragment(){
                 if(!favorited)
                 {
                     AccountApiConfig.AccountGamesRepository.saveGame(gameTitle.let { GameData.getDetails(it) }!!)
-                    Toast.makeText(context,"$gameTitle added to favorites",Toast.LENGTH_SHORT)
+                    favorited = true
                 }
                 else GameData.getDetails(gameTitle)?.id?.let { it1 ->
                     AccountApiConfig.AccountGamesRepository.removeGame(
                         it1
                     )
-                    Toast.makeText(context,"$gameTitle removed from favorites",Toast.LENGTH_SHORT)
+                    favorited = false
                 }
 
             }
@@ -105,7 +108,7 @@ class GameDetailFragment : Fragment(){
         var context : Context = cover.context
         var id : Int = context.resources.getIdentifier(game.coverImage,"drawable",context.packageName)
         cover.setImageResource(id)
-        val url = "https://images.igdb.com/igdb/image/upload/t_thumb/${game.coverImage}.jpg"
+        val url = "https:${game.coverImage}"
         GlideApp.with(context)
             .load(url)
             .fallback(id)

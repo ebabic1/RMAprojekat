@@ -8,7 +8,7 @@ data class GetGamesResponse(
     @SerializedName("release_dates") val releaseDates: List<ReleaseDateItem>?,
     @SerializedName("genres") val genres : List<GenreItem>?,
     @SerializedName("age_ratings") val ratings: List<RatingItem>?,
-    @SerializedName("artworks") val artworks : List<ArtworkItem>?,
+    @SerializedName("cover") val cover : CoverItem?,
     @SerializedName("involved_companies") val companies : List<ICompanyItem>?,
     @SerializedName("total_rating") val rating:Double?,
     @SerializedName("summary") val description: String?,

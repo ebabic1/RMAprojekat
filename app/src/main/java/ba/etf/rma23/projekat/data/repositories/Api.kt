@@ -17,7 +17,7 @@ interface Api {
     @Headers("Client-ID: ${BuildConfig.IGDB_CLIENT_ID}", "Authorization: ${BuildConfig.IGDB_API_KEY}")
     @GET("games")
     suspend fun getGamesByName(
-        @Query("search") search : String, @Query("fields") fields: String = "name,platforms.name,release_dates.date,total_rating,artworks.image_id,age_ratings.rating,age_ratings.category,involved_companies.company.name,involved_companies.publisher,genres.name,summary"
+        @Query("search") search : String, @Query("fields") fields: String = "cover.url,name,platforms.name,release_dates.date,total_rating,artworks.image_id,age_ratings.rating,age_ratings.category,involved_companies.company.name,involved_companies.publisher,genres.name,summary"
     ): Response<List<GetGamesResponse>>
     @POST("token")
     suspend fun getAuth(@Field("client_id") client_id : String= "w8r77nwoos0xww2uamczbyqvqn0j2o",
@@ -76,7 +76,7 @@ interface Api {
                             .format(Instant.ofEpochSecond(game.releaseDates?.get(0)?.releaseDate ?:0)),Math.round(game.rating?.times(
                             100.0
                         ) ?: 0.0) / 100.0?:0.0,
-                        game.artworks?.get(0)?.imageId ?:"","", it.name,"",
+                        game.cover?.url ?:"","", it.name,"",
                         game.genres?.get(0)?.name ?:"",game.description.toString()?:"",
                         listOf()
                     )
