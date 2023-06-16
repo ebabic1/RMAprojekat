@@ -2,7 +2,11 @@ package ba.etf.rma23.projekat.data.repositories
 
 import ba.etf.rma23.projekat.*
 import kotlinx.coroutines.*
-import kotlin.collections.ArrayList
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+
 
 class IGDBApiConfig {
     private val baseURL = "https://api.igdb.com/v4"
@@ -19,6 +23,22 @@ class IGDBApiConfig {
                     }
                 }
                return@withContext listOf()
+            }
+        }
+        suspend fun getGameById(id : Int) : Game?{
+            return withContext(Dispatchers.IO){
+                var strBody = "fields cover.url,name,platforms.name,release_dates.date,total_rating,artworks.image_id,age_ratings.rating,age_ratings.category,involved_companies.company.name,involved_companies.publisher,genres.name,summary; where id = $id;"
+                var body : RequestBody = strBody.toRequestBody("text/plain".toMediaTypeOrNull());
+                var response = Api.ApiAdapter.retrofit.getGameById(body)
+                val responseBody = response.body()
+                val returnList = responseBody?.let { Api.ApiAdapter.responseToGame(it) }
+                if (returnList != null) {
+                    if (!returnList.isEmpty()) {
+                        GameData.initialGames = returnList as ArrayList<Game>
+                        return@withContext returnList[0] //mozda bude problem ako je null
+                    }
+                }
+                return@withContext null;
             }
         }
         suspend fun getGamesSafe(name:String):List<Game>?{

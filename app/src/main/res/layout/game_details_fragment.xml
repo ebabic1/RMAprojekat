@@ -82,8 +82,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/impression_recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="395dp"
+        android:layout_height="495dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/border"
@@ -91,17 +91,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description_scrollview" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
     <ScrollView
         android:id="@+id/description_scrollview"
-        android:layout_width="201dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/impression_recyclerview"
+        android:layout_width="235dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@id/linearLayout2">
 
         <TextView
@@ -151,7 +150,51 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintEnd_toStartOf="@+id/description_scrollview"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <EditText
+        android:id="@+id/review_edittext"
+        android:layout_width="299dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/submitreview_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_scrollview" />
+
+    <Button
+        android:id="@+id/submitreview_button"
+        android:layout_width="80dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toTopOf="@+id/impression_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/review_edittext"
+        app:layout_constraintTop_toBottomOf="@+id/description_scrollview"
+        app:layout_constraintVertical_bias="0.069" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:progressTint="#FFE500"
+        android:stepSize="1"
+        app:layout_constraintBottom_toTopOf="@+id/impression_recyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/review_edittext" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

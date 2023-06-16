@@ -9,6 +9,8 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
+import ba.etf.rma23.projekat.data.repositories.GameReview
+import ba.etf.rma23.projekat.data.repositories.GameReviewsRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         if (orientation == Configuration.ORIENTATION_PORTRAIT){
         navView = findViewById(R.id.bottom_nav)
         navView?.selectedItemId = R.id.homeItem}
+
     }
 
 

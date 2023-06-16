@@ -4,6 +4,7 @@ import ba.etf.rma23.projekat.BuildConfig
 import ba.etf.rma23.projekat.Game
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -30,6 +31,14 @@ interface Api {
     suspend fun getSavedGamesPOST(@Path("hash") hash: String? = AccountApiConfig.AccountGamesRepository.getHash()) : Response<List<GetSavedGamesResponse>>
     @DELETE("account/{hash}/game/{gid}")
     suspend fun removeGame(@Path("gid") gid: Int,@Path("hash") hash: String? = AccountApiConfig.AccountGamesRepository.getHash()) : Response<Void>
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("account/{hash}/game/{gid}/gamereview")
+    suspend fun saveReviewPOST(@Body review : JsonObject, @Path("gid") gid : Int,@Path("hash") hash: String? = AccountApiConfig.AccountGamesRepository.getHash()) :Response<Void>
+    @Headers("Client-ID: ${BuildConfig.IGDB_CLIENT_ID}", "Authorization: ${BuildConfig.IGDB_API_KEY}")
+    @POST("games")
+    suspend fun getGameById(@Body body : RequestBody) : Response<List<GetGamesResponse>>
+    @GET("/game/{gid}/gamereviews")
+    suspend fun  getReviewsForGame(@Path("gid") id : Int) : Response<List<GameReviewResponse>>
     object ApiAdapter {
         val okhttp = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

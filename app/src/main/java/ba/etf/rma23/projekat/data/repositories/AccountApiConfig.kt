@@ -91,15 +91,10 @@ class AccountApiConfig {
                 if (response != null) {
                     for(item in response){
                         var initialGameSave = GameData.initialGames;
-                        var nameGames = IGDBApiConfig.GamesRepository.getGamesByName(item.name)
+                        var nameGames = IGDBApiConfig.GamesRepository.getGameById(item.igdb_id)
                         GameData.initialGames = initialGameSave;
-                        if (nameGames != null) {
-                            for(namegame in nameGames){
-                                if (namegame.id == item.igdb_id) {
-                                    gameList.add(namegame)
-                                    break
-                                }
-                            }
+                        if (nameGames!=null) {
+                            gameList.add(nameGames)
                         }
                     }
                 }

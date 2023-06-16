@@ -3,6 +3,7 @@ package ba.etf.rma23.projekat
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ba.etf.rma23.projekat.data.repositories.AccountApiConfig
-import ba.etf.rma23.projekat.data.repositories.IGDBApiConfig
+import ba.etf.rma23.projekat.data.repositories.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -57,6 +57,21 @@ class HomeFragment : Fragment() {
         searchButton.setOnClickListener {
             getGamesByName(searchText.text.toString())
         }
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+
+        /*var review = GameReview(null,"abcd",28204)
+            //context?.let { it1 -> GameReviewsRepository.GameReviewsRepository.sendReview(it1,review) }
+            val count =  context?.let { GameReviewsRepository.GameReviewsRepository.sendOfflineReviews(it) }
+            Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", count.toString())
+        var list = context?.let { it1 -> GameReviewsRepository.GameReviewsRepository.getOfflineReviews(it1) }
+            if (list != null) {
+                for (e in list){
+                    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", e.online.toString())
+                }
+            }*/
+        }
+
         filterButton.setOnClickListener {
             val scope = CoroutineScope(Job() + Dispatchers.Main)
             scope.launch {
@@ -85,6 +100,7 @@ class HomeFragment : Fragment() {
             scope.launch {
                 var gamesList : List<Game> = AccountApiConfig.AccountGamesRepository.getSavedGames()
                 GameData.favoriteGames = gamesList
+
                 if (searchText.text.toString() != ""){
                     gameListAdapter.updateGames(AccountApiConfig.AccountGamesRepository.getGamesContainingString(searchText.text.toString()))
                     Toast.makeText(context,"Omiljene igre za query",Toast.LENGTH_SHORT).show()
