@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
                 if (it.itemId == R.id.homeItem) {
                     navController.navigate(R.id.homeItem,null,NavOptions.Builder().setPopUpTo(R.id.homeItem,true).build())
                 }
+
                 true
             }
             homeButton = findViewById(R.id.home_button)

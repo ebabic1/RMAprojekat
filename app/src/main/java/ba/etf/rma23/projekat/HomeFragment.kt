@@ -60,16 +60,16 @@ class HomeFragment : Fragment() {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         scope.launch {
 
-        /*var review = GameReview(null,"abcd",28204)
-            //context?.let { it1 -> GameReviewsRepository.GameReviewsRepository.sendReview(it1,review) }
-            val count =  context?.let { GameReviewsRepository.GameReviewsRepository.sendOfflineReviews(it) }
-            Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", count.toString())
+        var review = GameReview(null,"offlinerevju1",28204)
+            var db = context?.let { AppDatabase.getInstance(it) }
+            //db?.gameReviewDao()?.insertAll(review)
+            //val count =  context?.let { GameReviewsRepository.GameReviewsRepository.sendOfflineReviews(it) }
         var list = context?.let { it1 -> GameReviewsRepository.GameReviewsRepository.getOfflineReviews(it1) }
             if (list != null) {
                 for (e in list){
-                    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", e.online.toString())
+                    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", e.review.toString())
                 }
-            }*/
+            }
         }
 
         filterButton.setOnClickListener {

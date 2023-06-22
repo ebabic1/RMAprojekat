@@ -4,8 +4,10 @@ import android.content.Context
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.net.UnknownHostException
+
 class GameReviewsRepository{
-object GameReviewsRepository {
+companion object GameReviewsRepository {
     suspend fun getOfflineReviews(context : Context) : List<GameReview> {
         return  withContext(Dispatchers.IO){
             var db = AppDatabase.getInstance(context)
@@ -15,9 +17,10 @@ object GameReviewsRepository {
     }
     suspend  fun  sendReview(context: Context, review: GameReview) : Boolean {
         return withContext(Dispatchers.IO) {
-                    var list = AccountApiConfig.AccountGamesRepository.getSavedGames();
-                    if (!list.any { it.id == review.igdb_id }) IGDBApiConfig.GamesRepository.getGameById(review.igdb_id)
-                        ?.let { AccountApiConfig.AccountGamesRepository.saveGame(it) }
+                    try{
+                        var list = AccountApiConfig.AccountGamesRepository.getSavedGames();
+                        if (!list.any { it.id == review.igdb_id }) IGDBApiConfig.GamesRepository.getGameById(review.igdb_id)
+                            ?.let { AccountApiConfig.AccountGamesRepository.saveGame(it) }
                         val paramObject = JsonObject()
                         paramObject.addProperty("review", review.review)
                         paramObject.addProperty("rating", review.rating)
@@ -28,6 +31,12 @@ object GameReviewsRepository {
                             return@withContext false}
 
                         return@withContext true
+                    }
+                    catch (e : java.net.UnknownHostException){
+                        var db = AppDatabase.getInstance(context)
+                        db!!.gameReviewDao().insertAll(review)
+                        return@withContext false
+                    }
         }
     }
 
@@ -48,10 +57,8 @@ object GameReviewsRepository {
 
         }
     }
-    suspend fun getReviewsForGame(igdb_id:Int, context: Context):List<GameReview> {
+    suspend fun getReviewsForGame(igdb_id:Int ):List<GameReview> {
         return withContext(Dispatchers.IO){
-
-                var db = AppDatabase.getInstance(context)
                 var list = Api.ApiAdapter.retrofitAccount.getReviewsForGame(igdb_id).body();
                 var reviewList : MutableList<GameReview> = mutableListOf()
                 if (list != null) {

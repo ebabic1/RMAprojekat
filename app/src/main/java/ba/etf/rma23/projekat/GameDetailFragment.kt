@@ -2,7 +2,6 @@ package ba.etf.rma23.projekat
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 
 import android.view.View
@@ -12,13 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.etf.rma23.projekat.data.repositories.AccountApiConfig
-import ba.etf.rma23.projekat.data.repositories.AppDatabase
 import ba.etf.rma23.projekat.data.repositories.GameReview
 import ba.etf.rma23.projekat.data.repositories.GameReviewsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class GameDetailFragment : Fragment(){
     private lateinit var game : Game
@@ -74,23 +73,28 @@ class GameDetailFragment : Fragment(){
             favorited = favoriteButton.isChecked
         }
         submitReviewButton.setOnClickListener {
-            val scope = CoroutineScope(Job() + Dispatchers.Main)
-            scope.launch {
-                val text : String = reviewEditText.text.toString();
-                var review : GameReview? = null
-                if (ratingBar.rating > 0){
-                     review = GameReview(ratingBar.rating.toInt(),null,game.id)
-                }
-                else if (text.length>0)
-                     review = GameReview(null,text,game.id)
-                val result = context?.let { it1 ->
-                    if (review != null) {
-                        GameReviewsRepository.GameReviewsRepository.sendReview(it1,review)
+            try{
+                val scope = CoroutineScope(Job() + Dispatchers.Main)
+                scope.launch {
+                    val text : String = reviewEditText.text.toString();
+                    var review : GameReview? = null
+                    if (ratingBar.rating > 0){
+                        review = GameReview(ratingBar.rating.toInt(),null,game.id)
                     }
+                    else if (text.length>0)
+                        review = GameReview(null,text,game.id)
+                    val result = context?.let { it1 ->
+                        if (review != null) {
+                            GameReviewsRepository.GameReviewsRepository.sendReview(it1,review)
+                        }
+                    }
+                    //Log.d("VALLJAL",result.toString())
+                    refreshReviews()
                 }
-                //Log.d("VALLJAL",result.toString())
-                refreshReviews()
+            }catch (e:java.net.UnknownHostException){
+
             }
+
         }
         GameData.getDetails(game.title)
             ?.let { impressionListAdapter.updateImpressions(it.userImpressions) }
@@ -118,45 +122,44 @@ class GameDetailFragment : Fragment(){
         fun newInstance(): GameDetailFragment = GameDetailFragment()
     }
     private fun refreshReviews(){
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
-        scope.launch {
-            var reviewList : List<GameReview>? =
-                context?.let {
-                    GameReviewsRepository.GameReviewsRepository.getReviewsForGame(game.id,
-                        it
-                    )
-                }
-            var impressionList : MutableList<UserImpression> = mutableListOf()
-            if (reviewList != null) {
-                for ( review in reviewList){
-                    if(review.review != null && review.rating ==null || review.rating == 0 )
-                        impressionList.add(UserReview(review.student,review.timestamp,
-                            review.review!!
-                        ))
-                    else if (review.review == null && review.rating != null || review.review == "" )
-                        impressionList.add(UserRating(review.student,review.timestamp, review.rating!!.toDouble()))
 
-                }
-            }
-            var offlineReviews =
-                context?.let { GameReviewsRepository.GameReviewsRepository.getOfflineReviews(it) };
-            if (offlineReviews != null) {
-                for(review in offlineReviews){
-                    if (!review.online && review.igdb_id == game.id){
-                        if (review.rating == null && review.review!=null)
-                            impressionList.add(UserReview(review.student,review.timestamp,"(OFFLINE REVIEW) ${review.review}"))
-                        else if(review.rating!=null && review.review == null)
-                            impressionList.add(UserRating(review.student,review.timestamp,0.0))
+            val scope = CoroutineScope(Job() + Dispatchers.Main)
+            scope.launch {
+                try {
+                    var reviewList : List<GameReview>? =
+                        GameReviewsRepository.GameReviewsRepository.getReviewsForGame(game.id)
+
+                    var impressionList : MutableList<UserImpression> = mutableListOf()
+                    if (reviewList != null) {
+                        for ( review in reviewList){
+                            if(review.review != null && review.rating ==null || review.rating == 0 )
+                                impressionList.add(UserReview(review.student,review.timestamp,
+                                    review.review!!
+                                ))
+                            else if (review.review == null && review.rating != null || review.review == "" )
+                                impressionList.add(UserRating(review.student,review.timestamp, review.rating!!.toDouble()))
+
+                        }
                     }
-                }
-            }
-            impressionListAdapter.updateImpressions(impressionList as List<UserImpression>)
-            var db = context?.let { AppDatabase.getInstance(it) }
-            var reviews = db!!.gameReviewDao().getAllOffline()
-            for(game in reviews){
-                Log.d("OFFLINE REVIEW","${game.id} ${game.online} ${game.review} ${game.student} ${game.timestamp}")
-            }
-        }
+                    var offlineReviews =
+                        context?.let { GameReviewsRepository.GameReviewsRepository.getOfflineReviews(it) };
+                    if (offlineReviews != null) {
+                        for(review in offlineReviews){
+                            if (!review.online && review.igdb_id == game.id){
+                                if (review.rating == null && review.review!=null)
+                                    impressionList.add(UserReview(review.student,review.timestamp,"(OFFLINE REVIEW) ${review.review}"))
+                                else if(review.rating!=null && review.review == null)
+                                    impressionList.add(UserRating(review.student,review.timestamp,0.0))
+                            }
+                        }
+                    }
+                    impressionListAdapter.updateImpressions(impressionList as List<UserImpression>)
+
+                }catch (e : UnknownHostException){
+                    Toast.makeText(context,"Error loading reviews",Toast.LENGTH_SHORT).show()
+
+           }}
+
     }
     private fun populateDetails(gameTitle : String){
         var prevGame : Game? = GameData.getDetails(gameTitle)
