@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class GameReviewResponse(
     @SerializedName("id") val id : Int,
     @SerializedName("rating") val rating : Int,
-    @SerializedName("timestamp") val timestamp : Long,
+    @SerializedName("timestamp") val timestamp : String,
     @SerializedName("review") val review : String,
     @SerializedName("createdAt") val createdAt : String,
     @SerializedName("updatedAt") val updatedAt : String,

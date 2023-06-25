@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-@Database(entities = arrayOf(GameReview::class), version = 2)
+@Database(entities = arrayOf(GameReview::class), version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun  gameReviewDao() : GameReviewDao
     companion object {

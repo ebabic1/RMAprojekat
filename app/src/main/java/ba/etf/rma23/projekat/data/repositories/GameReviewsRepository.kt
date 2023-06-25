@@ -29,7 +29,6 @@ companion object GameReviewsRepository {
                             var db = AppDatabase.getInstance(context)
                             db!!.gameReviewDao().insertAll(review)
                             return@withContext false}
-
                         return@withContext true
                     }
                     catch (e : java.net.UnknownHostException){
@@ -63,7 +62,7 @@ companion object GameReviewsRepository {
                 var reviewList : MutableList<GameReview> = mutableListOf()
                 if (list != null) {
                     for(response in list){
-                        reviewList.add(GameReview(response.rating,response.review,response.GameId,false,response.id,response.timestamp,response.student))
+                        reviewList.add(GameReview(response.rating,response.review,response.GameId,false,response.timestamp,response.student,response.id))
                     }
                 }
 

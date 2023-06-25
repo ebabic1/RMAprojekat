@@ -83,7 +83,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/impression_recyclerview"
         android:layout_width="395dp"
-        android:layout_height="495dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/border"
@@ -144,15 +144,15 @@
         android:id="@+id/favorite_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/favbtn_selector"
         android:text="ToggleButton"
         android:textOff=""
         android:textOn=""
+        app:layout_constraintBottom_toTopOf="@+id/review_edittext"
         app:layout_constraintEnd_toStartOf="@+id/description_scrollview"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/cover_imageview" />
 
     <EditText
         android:id="@+id/review_edittext"
@@ -185,7 +185,6 @@
         style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="10dp"
         android:isIndicator="false"
         android:numStars="5"

@@ -73,27 +73,32 @@ class GameDetailFragment : Fragment(){
             favorited = favoriteButton.isChecked
         }
         submitReviewButton.setOnClickListener {
-            try{
+
                 val scope = CoroutineScope(Job() + Dispatchers.Main)
                 scope.launch {
                     val text : String = reviewEditText.text.toString();
                     var review : GameReview? = null
                     if (ratingBar.rating > 0){
                         review = GameReview(ratingBar.rating.toInt(),null,game.id)
+                        context?.let { it1 ->
+                            if (review != null) {
+                                GameReviewsRepository.GameReviewsRepository.sendReview(it1,
+                                    review!!
+                                )
+                            }
+                        }
                     }
-                    else if (text.length>0)
+                    if (text.trim().isNotEmpty()){
                         review = GameReview(null,text,game.id)
-                    val result = context?.let { it1 ->
+                    context?.let { it1 ->
                         if (review != null) {
                             GameReviewsRepository.GameReviewsRepository.sendReview(it1,review)
                         }
-                    }
+                    } }
                     //Log.d("VALLJAL",result.toString())
                     refreshReviews()
                 }
-            }catch (e:java.net.UnknownHostException){
 
-            }
 
         }
         GameData.getDetails(game.title)
@@ -133,11 +138,11 @@ class GameDetailFragment : Fragment(){
                     if (reviewList != null) {
                         for ( review in reviewList){
                             if(review.review != null && review.rating ==null || review.rating == 0 )
-                                impressionList.add(UserReview(review.student,review.timestamp,
+                                impressionList.add(UserReview(review.student,0,
                                     review.review!!
                                 ))
                             else if (review.review == null && review.rating != null || review.review == "" )
-                                impressionList.add(UserRating(review.student,review.timestamp, review.rating!!.toDouble()))
+                                impressionList.add(UserRating(review.student,0, review.rating!!.toDouble()))
 
                         }
                     }
@@ -147,9 +152,9 @@ class GameDetailFragment : Fragment(){
                         for(review in offlineReviews){
                             if (!review.online && review.igdb_id == game.id){
                                 if (review.rating == null && review.review!=null)
-                                    impressionList.add(UserReview(review.student,review.timestamp,"(OFFLINE REVIEW) ${review.review}"))
+                                    impressionList.add(UserReview(review.student,0,"(OFFLINE REVIEW) ${review.review}"))
                                 else if(review.rating!=null && review.review == null)
-                                    impressionList.add(UserRating(review.student,review.timestamp,0.0))
+                                    impressionList.add(UserRating(review.student,0,0.0))
                             }
                         }
                     }
