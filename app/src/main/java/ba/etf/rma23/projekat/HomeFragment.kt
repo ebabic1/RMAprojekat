@@ -57,20 +57,7 @@ class HomeFragment : Fragment() {
         searchButton.setOnClickListener {
             getGamesByName(searchText.text.toString())
         }
-        val scope = CoroutineScope(Job() + Dispatchers.Main)
-        scope.launch {
 
-        var review = GameReview(null,"offlinerevju1",28204)
-            var db = context?.let { AppDatabase.getInstance(it) }
-            //db?.gameReviewDao()?.insertAll(review)
-            //val count =  context?.let { GameReviewsRepository.GameReviewsRepository.sendOfflineReviews(it) }
-        var list = context?.let { it1 -> GameReviewsRepository.GameReviewsRepository.getOfflineReviews(it1) }
-            if (list != null) {
-                for (e in list){
-                    Log.d("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", e.review.toString())
-                }
-            }
-        }
 
         filterButton.setOnClickListener {
             val scope = CoroutineScope(Job() + Dispatchers.Main)
@@ -100,7 +87,6 @@ class HomeFragment : Fragment() {
             scope.launch {
                 var gamesList : List<Game> = AccountApiConfig.AccountGamesRepository.getSavedGames()
                 GameData.favoriteGames = gamesList
-
                 if (searchText.text.toString() != ""){
                     gameListAdapter.updateGames(AccountApiConfig.AccountGamesRepository.getGamesContainingString(searchText.text.toString()))
                     Toast.makeText(context,"Omiljene igre za query",Toast.LENGTH_SHORT).show()
