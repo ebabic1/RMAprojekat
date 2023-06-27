@@ -66,8 +66,9 @@ class GameDetailFragment : Fragment(){
         impressionListAdapter = ImpressionListAdapter(listOf())
         impressionList.adapter = impressionListAdapter
         val scope = CoroutineScope(Job() + Dispatchers.Main)
-        var check = GameData.favoriteGames.find { it.title == gameTitle }
-        favoriteButton.isChecked = check == null
+        val check = GameData.favoriteGames.find { it.title == gameTitle }
+        favoriteButton.isChecked = check != null
+        favorited = favoriteButton.isChecked
         scope.launch {
             favoriteButton.isChecked = AccountApiConfig.AccountGamesRepository.getSavedGames().contains(GameData.getDetails(gameTitle))
             favorited = favoriteButton.isChecked
@@ -78,7 +79,7 @@ class GameDetailFragment : Fragment(){
                 scope.launch {
                     val text : String = reviewEditText.text.toString();
                     var review : GameReview? = null
-                    if (ratingBar.rating > 0){
+                    if (ratingBar.rating >= 1){
                         review = GameReview(ratingBar.rating.toInt(),null,game.id)
                         context?.let { it1 ->
                             if (review != null) {
@@ -152,13 +153,17 @@ class GameDetailFragment : Fragment(){
                         for(review in offlineReviews){
                             if (!review.online && review.igdb_id == game.id){
                                 if (review.rating == null && review.review!=null)
-                                    impressionList.add(UserReview(review.student,0,"(OFFLINE REVIEW) ${review.review}"))
+                                    impressionList.add(UserReview("(OFFLINE REVIEW) by ${review.student}",0,
+                                        review.review!!
+                                    ))
                                 else if(review.rating!=null && review.review == null)
-                                    impressionList.add(UserRating(review.student,0,0.0))
+                                    impressionList.add(UserRating("(OFFLINE REVIEW) by ${review.student}",0,0.0))
                             }
                         }
                     }
                     impressionListAdapter.updateImpressions(impressionList as List<UserImpression>)
+                    val noSent = context?.let { GameReviewsRepository.GameReviewsRepository.sendOfflineReviews(it) }
+                    Toast.makeText(context,"Sent $noSent offline impressions!",Toast.LENGTH_SHORT).show()
 
                 }catch (e : UnknownHostException){
                     Toast.makeText(context,"Error loading reviews",Toast.LENGTH_SHORT).show()
